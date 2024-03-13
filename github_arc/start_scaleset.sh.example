@@ -1,0 +1,18 @@
+#!/bin/bash
+INSTALLATION_NAME="samplename" # this is the name you'll use in "runson" in an Action
+NAMESPACE="samplenamespace" # namespace for your repo's Actions to run in
+GITHUB_CONFIG_URL="https://github.com/samplerepo" # the repo you want to use
+
+if [ ! -f ~/.ssh/gh_pat_containers ] ; then
+    echo "First save your github PAT in ~/.ssh/gh_pat_containers and set its permissions to 0600"
+    exit
+fi
+GITHUB_PAT=$(cat ~/.ssh/gh_pat_containers) 
+
+helm repo update
+helm install "${INSTALLATION_NAME}" \
+    --namespace "${NAMESPACE}" \
+    --create-namespace \
+    --set githubConfigUrl="${GITHUB_CONFIG_URL}" \
+    --set githubConfigSecret.github_token="${GITHUB_PAT}" \
+    oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set

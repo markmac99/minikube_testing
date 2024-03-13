@@ -1,0 +1,15 @@
+[Unit]
+Description=Kickoff Minikube Cluster
+After=docker.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/minikube start --mount-string="/run/udev:/run/udev" --mount
+RemainAfterExit=true
+ExecStop=/usr/local/bin/minikube stop
+StandardOutput=journal
+User=mark
+Group=mark
+
+[Install]
+WantedBy=multi-user.target

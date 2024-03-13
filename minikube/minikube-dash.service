@@ -1,0 +1,15 @@
+[Unit]
+Description=Minikube Dashboard
+After=minikube.service
+
+[Service]
+Type=oneshot
+ExecStart=/home/mark/scripts/minikube/start_mc_dash.sh
+RemainAfterExit=true
+ExecStop=/home/mark/scripts/minikube/stop_mc_dash.sh
+StandardOutput=journal
+User=mark
+Group=mark
+
+[Install]
+WantedBy=multi-user.target
